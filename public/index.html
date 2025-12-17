@@ -45,6 +45,11 @@
             pointer-events: none;
             z-index: 100;
             overflow: hidden;
+            display: none;
+        }
+
+        .floating-hearts.active {
+            display: block;
         }
 
         .heart {
@@ -943,10 +948,9 @@
     
     <script>
         // ========== LeanCloud 配置 ==========
-        // 请替换为你自己的 LeanCloud 应用凭证
-        const LC_APP_ID = 'rXjTMruNu4IYflQMJGYdXQGY-gzGzoHsz';  // 替换为你的 App ID
-        const LC_APP_KEY = 'qRUw6afI4c1m5eHgpPG1fUrM'; // 替换为你的 App Key
-        const LC_SERVER_URL = 'https://rxjtmrun.lc-cn-n1-shared.com'; // 替换为你的服务器地址
+        const LC_APP_ID = 'rXjTMruNu4IYflQMJGYdXQGY-gzGzoHsz';  
+        const LC_APP_KEY = 'qRUw6afI4c1m5eHgpPG1fUrM'; 
+        const LC_SERVER_URL = 'https://rxjtmrun.lc-cn-n1-shared.com'; 
         
         // 初始化 LeanCloud（如果已配置）
         if (LC_APP_ID !== 'YOUR_APP_ID') {
@@ -1305,7 +1309,7 @@
                 heart.className = 'heart';
                 heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
                 heart.style.left = (Math.random() * 100) + '%';
-                heart.style.fontSize = (20 + Math.random() * 16) + 'px';
+                heart.style.fontSize = (24 + Math.random() * 16) + 'px';
                 
                 // 设置不同的动画时长和起始位置，让爱心立即可见
                 const duration = 12 + Math.random() * 8;
@@ -1376,6 +1380,9 @@
             
             // 隐藏顶部标题
             document.querySelector('.header').style.display = 'none';
+            
+            // 显示爱心动画
+            document.getElementById('hearts').classList.add('active');
             
             // Calculate percentage score (max possible score is 105 for 21 questions)
             const maxScore = questions.length * 5;
@@ -1474,6 +1481,9 @@
             document.getElementById('resultSection').classList.remove('active');
             document.getElementById('scoreFill').style.strokeDashoffset = 502;
             document.getElementById('scaleMarker').style.left = '0%';
+            
+            // 隐藏爱心动画
+            document.getElementById('hearts').classList.remove('active');
             
             // 恢复显示顶部标题
             document.querySelector('.header').style.display = 'block';
