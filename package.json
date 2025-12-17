@@ -1,0 +1,11 @@
+{
+  "name": "love-test",
+  "version": "1.0.0",
+  "description": "测测你到底有多喜欢他 - 恋爱心理测试",
+  "scripts": {
+    "start": "serve public"
+  },
+  "keywords": ["love", "test", "quiz"],
+  "author": "",
+  "license": "MIT"
+}
