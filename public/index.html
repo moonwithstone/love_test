@@ -43,22 +43,33 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 0;
+            z-index: 100;
             overflow: hidden;
         }
 
         .heart {
             position: absolute;
-            font-size: 20px;
-            opacity: 0.15;
-            animation: float 15s ease-in-out infinite;
+            font-size: 28px;
+            opacity: 0;
+            animation: floatHeart linear infinite;
+            will-change: transform, opacity;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.15; }
-            90% { opacity: 0.15; }
-            100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+        @keyframes floatHeart {
+            0% { 
+                transform: translateY(100vh) rotate(0deg) scale(0.8); 
+                opacity: 0; 
+            }
+            5% { 
+                opacity: 0.25; 
+            }
+            95% { 
+                opacity: 0.25; 
+            }
+            100% { 
+                transform: translateY(-100px) rotate(360deg) scale(1.2); 
+                opacity: 0; 
+            }
         }
 
         .container {
@@ -791,7 +802,7 @@
 
             /* 浮动爱心调整 */
             .heart {
-                font-size: 16px;
+                font-size: 22px;
             }
         }
 
@@ -933,8 +944,8 @@
     <script>
         // ========== LeanCloud 配置 ==========
         // 请替换为你自己的 LeanCloud 应用凭证
-        const LC_APP_ID = 'rXjTMruNu4IYflQMJGYdXQGY-gzGzoHsz';  
-        const LC_APP_KEY = 'qRUw6afI4c1m5eHgpPG1fUrM'; 
+        const LC_APP_ID = 'rXjTMruNu4IYflQMJGYdXQGY-gzGzoHsz';  // 替换为你的 App ID
+        const LC_APP_KEY = 'qRUw6afI4c1m5eHgpPG1fUrM'; // 替换为你的 App Key
         const LC_SERVER_URL = 'https://rxjtmrun.lc-cn-n1-shared.com'; // 替换为你的服务器地址
         
         // 初始化 LeanCloud（如果已配置）
@@ -1284,18 +1295,25 @@
             "未来投射": 0
         };
 
-        // Create floating hearts
+        // Create floating hearts - 优化版本
         function createHearts() {
             const container = document.getElementById('hearts');
-            const hearts = ['💕', '💗', '💖', '💘', '💝', '♥️', '❤️'];
+            const hearts = ['💕', '💗', '💖', '💘', '💝', '♥️', '❤️', '🩷'];
             
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 12; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'heart';
                 heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
-                heart.style.left = Math.random() * 100 + '%';
-                heart.style.animationDelay = Math.random() * 15 + 's';
-                heart.style.animationDuration = (15 + Math.random() * 10) + 's';
+                heart.style.left = (Math.random() * 100) + '%';
+                heart.style.fontSize = (20 + Math.random() * 16) + 'px';
+                
+                // 设置不同的动画时长和起始位置，让爱心立即可见
+                const duration = 12 + Math.random() * 8;
+                const startPosition = Math.random() * 100; // 随机起始位置
+                
+                heart.style.animationDuration = duration + 's';
+                heart.style.animationDelay = -(duration * startPosition / 100) + 's'; // 负延迟让动画立即开始
+                
                 container.appendChild(heart);
             }
         }
@@ -1355,6 +1373,9 @@
         function showResult() {
             document.getElementById('quizSection').classList.remove('active');
             document.getElementById('resultSection').classList.add('active');
+            
+            // 隐藏顶部标题
+            document.querySelector('.header').style.display = 'none';
             
             // Calculate percentage score (max possible score is 105 for 21 questions)
             const maxScore = questions.length * 5;
@@ -1453,6 +1474,9 @@
             document.getElementById('resultSection').classList.remove('active');
             document.getElementById('scoreFill').style.strokeDashoffset = 502;
             document.getElementById('scaleMarker').style.left = '0%';
+            
+            // 恢复显示顶部标题
+            document.querySelector('.header').style.display = 'block';
             
             document.getElementById('introSection').style.display = 'block';
         }
